@@ -4,31 +4,38 @@ from consts import *
 
 
 def read_history():
-    n = int(input("Сколько запросов?\n"))
-    weather_datas = read_weather_data(n)
-    for wd in reversed(weather_datas):
-        wdprint = WeatherData(*wd.values())
-        print(f"{wdprint}\n")
-        del wdprint
+    try:
+        n = int(input("Сколько запросов?\n"))
+        weather_datas = read_weather_data(n)
+        for wd in reversed(weather_datas):
+            wdprint = WeatherData(*wd.values())
+            print(f"{wdprint}\n")
+            del wdprint
+    except ValueError:
+        print('Число запросов выражается целым положительным числом')
+
 
 
 def read_weather_data(n: int):
-    data_array = []
-    with open('wd.json', 'r') as file:
-        remainder = file.read().replace("\n", "")
-        while len(remainder) > 2:
-            data_array.append(remainder.partition("}")[0] + "}")
-            remainder = remainder.partition("}")[2]
-    weather_data_array = []
-    i = 1
-    data_array.reverse()
-    for d in data_array:
-        if i > n:
-            break
-        js = json.loads(d)
-        weather_data_array.append(js)
-        i = i + 1
-    return weather_data_array
+    if (type(n) != int) or (n < 1):
+        raise ValueError
+    else:
+        data_array = []
+        with open('wd.json', 'r') as file:
+            remainder = file.read().replace("\n", "")
+            while len(remainder) > 2:
+                data_array.append(remainder.partition("}")[0] + "}")
+                remainder = remainder.partition("}")[2]
+        weather_data_array = []
+        i = 1
+        data_array.reverse()
+        for d in data_array:
+            if i > n:
+                break
+            js = json.loads(d)
+            weather_data_array.append(js)
+            i = i + 1
+        return weather_data_array
 
 
 def clear_history():
@@ -44,7 +51,7 @@ options = {"1": weather_for_user_city,
 
 def enable_cycle():
     while True:
-        answer = input(answer_prompt)
+        answer = input(answer_prompt).replace(" ", "")
         if answer in options.keys():
             if answer == "5":
                 break
