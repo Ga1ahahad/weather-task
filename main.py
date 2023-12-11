@@ -7,7 +7,8 @@ def read_history():
     try:
         n = int(input("Сколько запросов?\n"))
         weather_datas = read_weather_data(n)
-        for wd in reversed(weather_datas):
+        weather_datas.reverse()
+        for wd in weather_datas:
             wdprint = WeatherData(*wd.values())
             print(f"{wdprint}\n")
             del wdprint
