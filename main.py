@@ -15,7 +15,6 @@ def read_history():
         print('Число запросов выражается целым положительным числом')
 
 
-
 def read_weather_data(n: int):
     if (type(n) != int) or (n < 1):
         raise ValueError
