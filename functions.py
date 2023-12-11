@@ -1,6 +1,6 @@
 import requests
 import geocoder
-import time as t
+import datetime
 import json
 from WeatherData import WeatherData
 
@@ -23,8 +23,8 @@ def save_weather_data(weather_data):
 
 def parse_weather_data(resp):
     try:
-        time = (t.strftime("%Y-%m-%d ", t.gmtime()) + str(t.gmtime().tm_hour + resp["timezone"]//3600) +
-                t.strftime(":%M:%S", t.gmtime()))
+        timezone = datetime.timezone(datetime.timedelta(seconds=float(resp["timezone"])))
+        time = datetime.datetime.fromtimestamp(float(resp["dt"]), timezone)
     except KeyError:
         time = resp["time"]
         # для чтения из json
