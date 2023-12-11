@@ -42,15 +42,15 @@ def parse_weather_data(resp):
 
 
 def weather_for_selected_city():
-    city = input("Введите город:\n")
+    city = input("Введите город:\n").replace(" ", "")
     url = generate_url(city)
     response = requests.get(url).json()
-    if "city not found" not in response.values():
+    if response["cod"] == 200:
         weatherdata = parse_weather_data(response)
         save_weather_data(weatherdata)
         print(weatherdata, "\n")
     else:
-        print("Такой город не найден")
+        print(f"Ошибка {response['cod']}: {response['message']}")
 
 
 def weather_for_user_city():

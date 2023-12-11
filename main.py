@@ -46,7 +46,9 @@ def clear_history():
 options = {"1": weather_for_user_city,
            "2": weather_for_selected_city,
            "3": read_history,
-           "4": clear_history}
+           "4": clear_history,
+           "5": ""}
+
 
 
 def enable_cycle():
@@ -55,7 +57,8 @@ def enable_cycle():
         if answer in options.keys():
             if answer == "5":
                 break
-            options[answer]()
+            else:
+                options[answer]()
         else:
             print('Нет такой опции')
 
